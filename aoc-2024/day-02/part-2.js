@@ -47,7 +47,6 @@ fs.readFile(file, "utf8", (err, data) => {
 					num,
 					is_consistent ? "bad difference" : "inconsistent"
 				);
-
 				bad_levels += 1;
 				// only remove first unsafe level
 				if (bad_levels == 1) {
@@ -55,27 +54,18 @@ fs.readFile(file, "utf8", (err, data) => {
 					removals = { dropped: prev, potential: num, index: i - 1 };
 					// delete prev
 					report.splice(i - 1, 1);
-					console.log("current index", i);
-					if (removals.index == 0) {
-						i = 0;
-						is_increasing = report[0] < report[1];
-					} else {
-						i = i - 2;
-					}
-					console.log("new index", i);
-					console.log("new report looks like", report);
-					console.log("restart from", report[i + 1]);
-				} else if (bad_levels == 2) {
-					console.log("remove the other level and try again");
-					// swap dropped and potential to create new report option
-					console.log("prev report", report);
-					report.splice(removals.index, 1, removals.dropped);
-					console.log("new report ", report);
-					console.log("current index", i);
-					i = i - 1;
+					// reset
 					is_increasing = report[0] < report[1];
-					console.log("new index", i);
-				} else if (bad_levels > 2) {
+					bad_levels = 0;
+					i = 0;
+					// } else if (bad_levels == 2) {
+					// 	console.log("remove the other level and try again");
+					// 	// swap dropped and potential to create new report option
+					// 	report.splice(removals.index, 1, removals.dropped);
+					// 	// reset
+					// 	is_increasing = report[0] < report[1];
+					// 	i = 0;
+				} else if (bad_levels > 1) {
 					console.log("uh oh, unsafe regardless of which level removed");
 					break;
 				}
@@ -85,7 +75,6 @@ fs.readFile(file, "utf8", (err, data) => {
 			console.log(report, "is safe!");
 		}
 		count += is_safe ? 1 : 0;
-		// console.log(is_safe, count);
 	}
 	console.log(count);
 });
