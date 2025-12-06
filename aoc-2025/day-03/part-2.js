@@ -9,13 +9,14 @@ function find_largest_joltage(battery) {
 	//  12 numbers
 	let index = 0;
 	let num = "";
-	let end = battery.length - 11;
 	for (let i = 12; i > 0; i--) {
-		let window = battery.slice(index, battery.length - i + 1);
+		// decremental(?) loop
+		let window = battery.slice(index, battery.length - i + 1); // create window where we search for largest number
 		let largest = Math.max(...window);
 		num += largest;
-		index += window.indexOf(largest) + 1;
+		index += window.indexOf(largest) + 1; // update starting index for next search
 	}
+
 	return parseInt(num);
 }
 
