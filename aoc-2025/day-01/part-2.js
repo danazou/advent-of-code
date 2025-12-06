@@ -14,37 +14,32 @@ let count = 0;
 let pass_through_0 = 0;
 
 for (let i = 0; i < input.length; i++) {
-	console.log(x, input[i]);
-
 	x += input[i];
-	console.log(x);
 
 	if (x <= 0 || x > 99) {
-		console.log("x is less than 0 or greater than 99");
+		// pass through 0
 		if (x < 0) {
+			// x is negative
 			if (x - input[i] == 0) {
-				console.log("x previously was 0");
+				// x started at 0
 				if (x > -99) {
-					console.log("x > -99");
+					console.log("x > -99"); // doesn't pass through 0 again, do nothing
 				} else {
-					pass_through_0 -= Math.floor(x / 100) + 1;
+					pass_through_0 -= Math.floor(x / 100) + 1; // pass through 0, but remove 1 from start
 				}
 			} else if (x % 100 == 0) {
-				console.log("ends at 0");
-				pass_through_0 -= Math.floor(x / 100) - 1; // ends at 0
+				// ends at 0, add additional count
+				pass_through_0 -= Math.floor(x / 100) - 1;
 			} else {
 				pass_through_0 -= Math.floor(x / 100);
 			}
 		} else if (x > 99) {
+			// x is positive
 			pass_through_0 += Math.floor(x / 100);
 		} else if (x == 0) {
-			console.log("x is zero");
 			pass_through_0 += 1;
-		} else {
-			console.log("didnt match");
 		}
 	}
-	console.log("pass; ", pass_through_0);
 
 	while (x < 0 || x > 99) {
 		x < 0 ? (x += 100) : (x -= 100);
@@ -52,11 +47,7 @@ for (let i = 0; i < input.length; i++) {
 
 	if (x == 0) {
 		count += 1;
-		// pass_through_0 += 1;
-		// console.log(count);
 	}
-	// console.log("count: ", count);
-	console.log("pass_through_0: ", pass_through_0);
 }
 
 console.log(count);
