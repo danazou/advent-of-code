@@ -2,11 +2,11 @@ import test from "./test.js";
 import input_str from "./input.js";
 
 let input = input_str.split("\n\n").map((x) => x.split("\n"));
-let fresh_range = input[0].map((x) => x.split("-").map((x) => parseInt(x)));
+let input_ranges = input[0].map((x) => x.split("-").map((x) => parseInt(x)));
 
 let ranges = [];
 
-function check_range(range, ranges) {
+function merge_if_overlapping(range, ranges) {
 	let is_overlapping = false;
 	let [start, end] = range;
 	for (let i = 0; i < ranges.length; i++) {
@@ -17,37 +17,31 @@ function check_range(range, ranges) {
 		}
 
 		is_overlapping = true;
-		// if overlapping, update range
-		if (start < range_start) {
-			ranges[i][0] = start;
-		}
-
-		if (end > range_end) {
-			ranges[i][1] = end;
-		}
+		// update range
+		ranges[i][0] = Math.min(start, range_start);
+		ranges[i][1] = Math.max(end, range_end);
 	}
+
 	return is_overlapping;
 }
 
 while (true) {
-	for (let i = 0; i < fresh_range.length; i++) {
-		if (check_range(fresh_range[i], ranges)) {
+	for (let i = 0; i < input_ranges.length; i++) {
+		if (merge_if_overlapping(input_ranges[i], ranges)) {
 			continue;
 		}
-		ranges.push(fresh_range[i]);
+
+		ranges.push(input_ranges[i]);
 	}
 
-	if (ranges.length >= fresh_range.length) {
+	if (ranges.length >= input_ranges.length) {
 		break;
 	}
-	fresh_range = ranges;
+	input_ranges = ranges;
 	ranges = [];
 }
 
-let count = 0;
-for (let i = 0; i < ranges.length; i++) {
-	count += ranges[i][1] - ranges[i][0] + 1;
-}
+let count = ranges.reduce((sum, [start, end]) => sum + (end - start + 1), 0);
 
 console.log(count);
 // 344378119285354
