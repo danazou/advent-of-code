@@ -6,24 +6,18 @@ let input = input_str
 	.map((x) => x.split(" ").filter((x) => x != ""));
 
 let operations = input.pop();
-let worksheets = input.map((x) => x.map((x) => parseInt(x)));
+let worksheets = input.map((row) => row.map((num) => parseInt(num)));
 
 let total = 0;
 for (let i = 0; i < operations.length; i++) {
 	let operation = operations[i];
-	let nums = [];
-	for (let j = 0; j < worksheets.length; j++) {
-		nums.push(worksheets[j][i]);
-	}
+	let nums = worksheets.map((row) => row[i]);
+
 	if (operation == "+") {
 		total += nums.reduce((prev, curr) => prev + curr, 0);
-	}
-
-	if (operation == "*") {
+	} else if (operation == "*") {
 		total += nums.reduce((prev, curr) => prev * curr, 1);
 	}
-
-	console.log(nums);
 }
 
 console.log(total);
