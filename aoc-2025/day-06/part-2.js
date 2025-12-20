@@ -3,14 +3,6 @@ import input_str from "./input.js";
 
 function get_non_space_indices(string) {
 	return [...string].flatMap((char, i) => (char !== " " ? [i] : []));
-	// let indices = [];
-	// for (let i = 0; i < string.length; i++) {
-	// 	if (string[i] == " ") {
-	// 		continue;
-	// 	}
-	// 	indices.push(i);
-	// }
-	// return indices;
 }
 
 function split_string(lines, indices) {
